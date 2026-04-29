@@ -1,0 +1,25 @@
+[
+    {
+        "id": "resource_1",
+        "title": "Deep Learning Specialization",
+        "type": "online_course",
+        "provider": "Coursera",
+        "url": "https://coursera.org/specializations/deep-learning",
+        "description": "Comprehensive course on deep learning fundamentals"
+    },
+    {
+        "id": "resource_2",
+        "title": "Python for Data Science Handbook",
+        "type": "book",
+        "author": "Jake VanderPlas",
+        "description": "Practical guide to Python for data science"
+    },
+    {
+        "id": "resource_3",
+        "title": "AWS Machine Learning Certification",
+        "type": "certification",
+        "provider": "AWS",
+        "url": "https://aws.amazon.com/certification",
+        "description": "Industry-recognized ML certification"
+    }
+]

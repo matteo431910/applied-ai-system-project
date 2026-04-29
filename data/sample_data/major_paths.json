@@ -1,0 +1,20 @@
+[
+    {
+        "id": "cs_path",
+        "major": "Computer Science",
+        "year_1": ["CS101", "MATH101", "PHYS101"],
+        "year_2": ["CS201", "CS202", "MATH201"],
+        "year_3": ["CS301", "CS302", "ELECTIVE"],
+        "year_4": ["CS401", "CAPSTONE", "ELECTIVE"],
+        "career_outcomes": ["Software Engineer", "Data Scientist", "ML Engineer", "Systems Engineer"]
+    },
+    {
+        "id": "data_science_path",
+        "major": "Data Science",
+        "year_1": ["MATH101", "CS101", "STATS101"],
+        "year_2": ["STATS201", "CS201", "MATH201"],
+        "year_3": ["ML301", "DATA302", "STATS301"],
+        "year_4": ["CAPSTONE", "ML401", "ELECTIVE"],
+        "career_outcomes": ["Data Scientist", "Analytics Engineer", "ML Engineer"]
+    }
+]

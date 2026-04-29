@@ -1,0 +1,80 @@
+graph TB
+    subgraph Users["👨‍🎓 Input: Student Users"]
+        Student["Student Query<br/>(Major guidance, careers,<br/>course planning)"]
+    end
+
+    subgraph Processing["⚙️ PROCESSING PIPELINE"]
+        subgraph Retriever["🔍 RETRIEVER Component"]
+            Search["Semantic Search<br/>(Vector embeddings)"]
+            Extract["Context Extraction<br/>(from knowledge base)"]
+        end
+
+        subgraph Agent["🤖 AGENT Component"]
+            Reason["Reasoning Engine<br/>(Match to major/career)"]
+            Enhance["Resource Enhancement<br/>(Enrich recommendations)"]
+            Format["Format Response<br/>(LLM generation)"]
+        end
+
+        subgraph Evaluator["✅ EVALUATOR Component"]
+            QualityCheck["Quality Check<br/>(Accuracy, relevance)"]
+            Validation["Validation<br/>(Career path alignment)"]
+        end
+    end
+
+    subgraph KnowledgeBase["📚 Data Sources"]
+        Classes["Course Materials"]
+        Resources["Career Resources"]
+        MajorPath["Major Roadmaps"]
+        Network["Alumni Network"]
+    end
+
+    subgraph HumanInTheLoop["👥 HUMAN REVIEW & TESTING"]
+        Review["Human Review<br/>(Career advisors)"]
+        Test["Testing & Feedback<br/>(Student testers)"]
+        Iterate["Iterate & Refine"]
+    end
+
+    subgraph Output["💡 Output: Personalized Guidance"]
+        Recommendation["Course Recommendations"]
+        Plan["Career Action Plan"]
+        Resources_Out["Resource Links & Mentors"]
+    end
+
+    Student --> Search
+    
+    Classes --> Extract
+    Resources --> Extract
+    MajorPath --> Extract
+    Network --> Extract
+    
+    Search --> Reason
+    Extract --> Reason
+    
+    Reason --> Enhance
+    Enhance --> Format
+    
+    Format --> QualityCheck
+    QualityCheck --> Validation
+    
+    Validation --> Review
+    Review --> Test
+    Test --> Iterate
+    
+    Iterate -->|Approved| Recommendation
+    Iterate -->|Needs improvement| Enhance
+    
+    Recommendation --> Users
+    Plan --> Users
+    Resources_Out --> Users
+    
+    Recommendation -.->|Feedback| Test
+    Plan -.->|Feedback| Test
+
+    style Users fill:#e1f5ff
+    style Processing fill:#fff3e0
+    style Retriever fill:#c8e6c9
+    style Agent fill:#ede7f6
+    style Evaluator fill:#ffccbc
+    style KnowledgeBase fill:#f3e5f5
+    style HumanInTheLoop fill:#ffe0b2
+    style Output fill:#c8e6c9
