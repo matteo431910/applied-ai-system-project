@@ -60,14 +60,19 @@ async def get_recommendations(query: StudentQuery) -> RecommendationResponse:
     """
     try:
         logger.info(f"Processing recommendation request for {query.major}")
+        logger.debug(f"Query details: {query.dict()}")
         
         # Generate unique ID
         query_id = str(uuid.uuid4())
+        logger.info(f"Generated query_id: {query_id}")
         
         # Step 1: Retrieve relevant documents
+        logger.info("Step 1: Retrieving documents...")
         retrieved_docs = retriever.retrieve(query.query, top_k=5)
+        logger.info(f"Retrieved {len(retrieved_docs)} documents")
         
         # Step 2: Generate recommendations using Agent
+        logger.info("Step 2: Generating recommendations...")
         student_context = {
             "major": query.major,
             "academic_year": query.academic_year,
@@ -81,17 +86,25 @@ async def get_recommendations(query: StudentQuery) -> RecommendationResponse:
             student_context,
             retrieved_docs
         )
+        logger.info("Recommendations generated successfully")
         
-        # Step 3: Evaluate recommendations
-        quality_score, feedback, approved = evaluator.evaluate(
+        # Step 3: Evaluate recommendations with confidence scoring
+        logger.info("Step 3: Evaluating recommendations...")
+        quality_score, feedback, approved, confidence_score = evaluator.evaluate(
             recommendation_text,
             student_context
         )
         
+        logger.info(f"Quality Score: {quality_score:.2f}, Confidence: {confidence_score:.2f}, Approved: {approved}")
+        
         if not approved:
-            logger.warning(f"Recommendation not approved. Feedback: {feedback}")
+            logger.warning(f"Recommendation not approved. Confidence: {confidence_score:.2f}")
+            logger.debug(f"Feedback: {feedback[:200]}...")  # Log first 200 chars
+        else:
+            logger.info(f"Recommendation approved with high confidence: {confidence_score:.2f}")
         
         # Step 4: Format response
+        logger.info("Step 4: Formatting response...")
         response = RecommendationResponse(
             query_id=query_id,
             student_major=query.major,
@@ -119,11 +132,16 @@ async def get_recommendations(query: StudentQuery) -> RecommendationResponse:
         )
         
         logger.info(f"Successfully generated recommendations for query {query_id}")
+        logger.info(f"System Confidence in this recommendation: {confidence_score:.1%}")
         return response
         
+    except ValueError as e:
+        logger.error(f"Validation error in recommendation: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Invalid input: {str(e)}")
+        
     except Exception as e:
-        logger.error(f"Error processing recommendation: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Unexpected error processing recommendation: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Error generating recommendations: {str(e)}")
 
 
 @app.get("/")

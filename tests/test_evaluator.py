@@ -22,12 +22,24 @@ def test_extract_score():
     assert 0 <= score <= 1
 
 
-def test_extract_score_default():
-    """Test default score when no score found"""
+def test_extract_confidence():
+    """Test confidence extraction from evaluation text"""
+    evaluator = Evaluator()
+    
+    test_text = "Quality score 85 out of 100. Confidence level: 90 out of 100."
+    confidence = evaluator._extract_confidence(test_text)
+    
+    # Confidence should be normalized to 0-1
+    assert 0 <= confidence <= 1
+    assert confidence > 0.8  # Should be high confidence
+
+
+def test_extract_confidence_default():
+    """Test default confidence when not found"""
     evaluator = Evaluator()
     
     test_text = "This is a good recommendation"
-    score = evaluator._extract_score(test_text)
+    confidence = evaluator._extract_confidence(test_text)
     
-    # Should return default score
-    assert score == 0.7
+    # Should return default confidence
+    assert confidence == 0.75
