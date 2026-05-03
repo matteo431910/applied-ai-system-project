@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     # Application Settings
     app_name: str = "College Major RAG System"
     app_version: str = "0.1.0"
-    embedding_model: str = "text-embedding-3-small"  # OpenAI embeddings dimension
+    embedding_model: str = "all-MiniLM-L6-v2"  # Local sentence-transformers model (no API key needed)
     max_tokens: int = 2048
     temperature: float = 0.7
     
